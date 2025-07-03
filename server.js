@@ -18,11 +18,12 @@ const corsOptions = {
         if (!origin) return callback(null, true);
         
         const allowedOrigins = [
-            'https://test-gen-frontend.onrender.com',
-            'http://localhost:3000',
-            'http://localhost:3001',
-            'http://localhost:5173',
-            'http://localhost:5174'
+          "https://test-gen-frontend.onrender.com",
+          "https://steady-kheer-8df91d.netlify.app/",
+          "http://localhost:3000",
+          "http://localhost:3001",
+          "http://localhost:5173",
+          "http://localhost:5174",
         ];
         
         // Also allow any Render URLs (they use .onrender.com domain)
