@@ -14,6 +14,7 @@ const PORT = process.env.PORT || 3000;
 
 const corsOptions = {
     origin: function (origin, callback) {
+        // Allow requests with no origin (mobile apps, postman, etc.)
         if (!origin) return callback(null, true);
         
         const allowedOrigins = [
@@ -24,9 +25,19 @@ const corsOptions = {
             'http://localhost:5174'
         ];
         
-        if (allowedOrigins.includes(origin)) {
+        // Also allow any Render URLs (they use .onrender.com domain)
+        const isRenderUrl = origin.endsWith('.onrender.com');
+        
+        // In development, allow all localhost origins
+        const isLocalhost = origin.includes('localhost') || origin.includes('127.0.0.1');
+        
+        if (allowedOrigins.includes(origin) || isRenderUrl || isLocalhost) {
+            console.log(`✅ CORS: Allowing origin: ${origin}`);
             callback(null, true);
         } else {
+            console.error(`❌ CORS: Blocking origin: ${origin}`);
+            console.error(`Allowed origins: ${allowedOrigins.join(', ')}`);
+            console.error(`Is Render URL: ${isRenderUrl}, Is Localhost: ${isLocalhost}`);
             callback(new Error('Not allowed by CORS'));
         }
     },
